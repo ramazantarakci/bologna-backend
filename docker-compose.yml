@@ -1,0 +1,70 @@
+version: '3.7'
+
+volumes:
+  bolognadatabase_data:
+      driver: local
+
+services:
+  load-balancer-microservice:
+    build:
+      context: ./load-balancer-microservice
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+
+  angular-microservice:
+    build:
+      context: ./angular-microservice
+      dockerfile: ./Dockerfile
+    restart: always
+
+  angular-admin-microservice:
+    build:
+      context: ./angular-admin-microservice
+      dockerfile: ./Dockerfile
+    restart: always
+
+  bolognadatabase:
+    build:
+      context: ./postgres-microservice
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: bologna_admin
+      POSTGRES_PASSWORD: bologna_admin
+      POSTGRES_DB: bologna_db
+    ports:
+      - 5432:5432
+    volumes:
+      - bolognadatabase_data:/var/lib/postgresql/data
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9099:8080 
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:9.0.2
+    restart: always
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: bolognadatabase
+      DB_DATABASE: keycloak_db
+      DB_USER: keycloak_user
+      DB_SCHEMA: public
+      DB_PASSWORD: keycloak_password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - 9000:8080
+    depends_on:
+      - bolognadatabase
+
+  spring-microservice:
+    build:
+      context: ./spring-microservice
+      dockerfile: ./Dockerfile
+    restart: always

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+    <persistence-unit name="persistence-unit" transaction-type="RESOURCE_LOCAL">
+        <!-- resource local vs- JTA farkı öğrenilecek -->
+<!--        <class>resourceserver.model.university.University</class>-->
+<!--        <class>resourceserver.model.university.LectureLearningOutcomes</class>-->
+<!--        <class>resourceserver.model.university.LLO_PT_Relation</class>-->
+<!--        <class>resourceserver.model.university.ProgramThroughputs</class>-->
+<!--        <class>resourceserver.model.university.TYYC</class>-->
+<!--        <class>resourceserver.model.university.TyycPcRelation</class>-->
+
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/resource_db" />
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+            <property name="hibernate.connection.username" value="resource_user" />
+            <property name="hibernate.connection.password" value="resource_password" />
+            <property name="Log" value="DefaultLevel=WARN, Tool=INFO" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="packagesToScan" value="resourceserver" />
+        </properties>
+    </persistence-unit>
+</persistence>

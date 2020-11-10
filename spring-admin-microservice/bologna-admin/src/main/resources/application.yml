@@ -1,0 +1,50 @@
+#keycloak:
+#  realm: bologna-information-system
+#  resource: bologna-resource-server
+#  auth-server-url: http://localhost:9000/auth
+#  ssl-required: external
+#  public-client: true
+#  principal-attribute: preferred_username
+keycloak:
+  realm: bologna-realm
+  auth-server-url: http://localhost:9000/auth
+  ssl-required: external
+  resource: springboot-microservice
+  use-resource-role-mappings: true
+  bearer-only: true
+  credentials:
+    secret: 84a6f341-df59-402f-bda3-1f68ea576481
+
+server:
+  port: 8700
+#  use-forward-headers: true
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  hateoas:
+    use-hal-as-default-json-media-type: false
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:postgresql://localhost:5432/resource_db
+    username: resource_user
+    password: resource_password
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 20
+  jpa:
+    hibernate:
+      ddl-auto: update
+      # in production this value is must to be "update"
+      # create ile create-drop arasında ne fark var.
+
+#  level: error
+
+
+
+
+#  keycloak.auth-server-url=http://localhost:8180/auth
+#  keycloak.realm=SpringBootKeycloak
+#  keycloak.resource=login-app
+#  keycloak.public-client=true
